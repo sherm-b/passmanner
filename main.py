@@ -33,6 +33,8 @@ def main():
             print_help()
         if input_choice == 'q':
             sys.exit("Thank you for using passmanner. Exiting...")
+        if input_choice == 'a':
+            passmanner.add_account()
 
 
 if __name__ == '__main__':
