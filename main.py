@@ -7,25 +7,7 @@
 ###################################
 import passmanner
 import os
-import csv
 import sys
-
-def create_vault():
-    """Creates a 'vault' csv to store account details"""
-    create_vault_input = input('No vault file found. Would you like to create one? [y/n] ')
-    input_invalid = True
-    while input_invalid:
-        if create_vault_input.strip().lower() == 'y':
-            #create and initialize vault csv with header
-            with open('pmvault.csv', 'w', newline='') as vault_file:
-                vault_writer = csv.writer(vault_file)
-                vault_writer.writerow(['#', 'account_name', 'username', 'password'])
-                print(f"Vault created at {os.getcwd()}\\pmvault.csv\n")
-                input_invalid = False
-        elif create_vault_input.strip().lower() == 'n':
-            sys.exit("passmanner needs a vault file to function. Exiting...")
-        else:
-            create_vault_input = input("Please enter a valid input. [y/n] ")
 
 def print_help():
     """Prints the help menu"""
@@ -40,15 +22,18 @@ def main():
     print("-- passmanner --\n")
     #if vault file doesn't exist, ask to create it
     if 'pmvault.csv' not in os.listdir('.'):
-        create_vault()
+        passmanner.create_vault()
     #ask if user wants to search for, see, add or delete profile info, accept input
-    #conditional tree to selected option, loops if not terminated
+    #conditional tree to selected option, loops if not terminated with q option
     while True:
         input_choice = input("Would you like to [a]dd, [l]ist, [s]earch for, or [d]elete an account?\n"
                              "You can enter 'h' for help, or 'q' to quit.\n"
                              "[a/l/s/d/q/h]: ").strip().lower()
         if input_choice == 'h':
             print_help()
+        if input_choice == 'q':
+            sys.exit("Thank you for using passmanner. Exiting...")
+
 
 if __name__ == '__main__':
     main()
