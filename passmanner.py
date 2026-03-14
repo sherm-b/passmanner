@@ -60,30 +60,27 @@ def create_vault():
 
 def add_to_vault(account):
     """Adds account details to vault"""
-    unwritten = True
-    while unwritten:
-        with open('pmvault.csv', 'r+', newline='') as vault_file:
-            vault_writer = csv.writer(vault_file)
-            last_row = vault_file.readlines()[-1]
-            #Checks if there is an item before the new one, and increments the list value by one.
-            if last_row[0] == '#':
-                vault_writer.writerow(['1', f'{account.account_type}', f'{account.username}', f'{account.password}'])
-                unwritten = False
-            else:
-                vault_writer.writerow([f"{str(int(last_row[0]) + 1)}", f'{account.account_type}', f'{account.username}', f'{account.password}'])
-                unwritten = False
+    with open('pmvault.csv', 'r+', newline='') as vault_file:
+        vault_writer = csv.writer(vault_file)
+        last_row = vault_file.readlines()[-1]
+         #Checks if there is an item before the new one, increments the list value by one, and adds account details.
+        if last_row[0] == '#':
+            vault_writer.writerow(['1', f'{account.account_type}', f'{account.username}', f'{account.password}'])
+        else:
+            vault_writer.writerow([f"{str(int(last_row[0]) + 1)}", f'{account.account_type}', f'{account.username}', f'{account.password}'])
 
 
 
 def add_account():
     """Creates an account object and passes it to the add_to_vault function"""
+    #these loops are messy, going to mess around with this and try to clean it up
     trying_to_add = True
     while trying_to_add:
         account_type = input("Please enter the service this account is for: ")
         username = input("Please enter your username: ")
         password = input("Please enter your password: ")
         acct = Account(account_type, username, password)
-        print("- Account Details -\n"
+        print("\n- Account Details -\n"
               f"Account Type: {acct.account_type}\n"
               f"Username: {acct.username}\n"
               f"Password: {acct.password}\n")
@@ -91,6 +88,7 @@ def add_account():
         while check_details:
             if check_details == "y":
                 add_to_vault(acct)
+                print(f"Account details for {acct.account_type} added successfully.\n")
                 trying_to_add = False
                 check_details = False
             elif check_details != "n":
