@@ -5,9 +5,7 @@
 #DISCLAIMER: This password manager is a student project and is NOT SECURE!!! Don't use this for anything you care about!
 #If you get your accounts owned, don't blame me. Use Bitwarden; it's great!
 ###################################
-import passmanner
-import os
-import sys
+import passmanner, os, sys
 
 def print_help():
     """Prints the help menu"""
@@ -35,6 +33,8 @@ def main():
             sys.exit("Thank you for using passmanner. Exiting...")
         if input_choice == 'a':
             passmanner.add_account()
+        if input_choice == 'l':
+            passmanner.list_vault()
 
 
 if __name__ == '__main__':
