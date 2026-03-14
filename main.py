@@ -2,6 +2,8 @@
 #Passmanner By Jeremy Bess
 #Final Project for CS162P
 #3/13/2026
+#DISCLAIMER: This password manager is a student project and is NOT SECURE!!! Don't use this for anything you care about!
+#If you get your accounts owned, don't blame me. Use Bitwarden; it's great!
 ###################################
 import passmanner
 import os
