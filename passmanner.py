@@ -3,18 +3,18 @@ import os
 import sys
 
 class Account(object):
-    def __init__(self, account_name, username, password):
-        self._account_name = account_name
+    def __init__(self, account_type, username, password):
+        self._account_type = account_type
         self._username = username
         self._password = password
 
     @property
-    def account_name(self):
-        return self._account_name
+    def account_type(self):
+        return self._account_type
 
-    @account_name.setter
-    def account_name(self, account_name):
-        self._account_name = account_name
+    @account_type.setter
+    def account_type(self, account_type):
+        self._account_type = account_type
 
     @property
     def username(self):
@@ -39,7 +39,7 @@ class Account(object):
                 return
 
     def __str__(self):
-        return f"{self._account_name} | {self._username} | {self._password}"
+        return f"{self._account_type} | {self._username} | {self._password}"
 
 def create_vault():
     """Creates a 'vault' csv to store account details"""
@@ -50,10 +50,53 @@ def create_vault():
             #create and initialize vault csv with header
             with open('pmvault.csv', 'w', newline='') as vault_file:
                 vault_writer = csv.writer(vault_file)
-                vault_writer.writerow(['#', 'account_name', 'username', 'password'])
+                vault_writer.writerow(['#', 'account_type', 'username', 'password'])
                 print(f"Vault created at {os.getcwd()}\\pmvault.csv\n")
                 input_invalid = False
         elif create_vault_input.strip().lower() == 'n':
             sys.exit("passmanner needs a vault file to function. Exiting...")
         else:
             create_vault_input = input("Please enter a valid input. [y/n] ")
+
+def add_to_vault(account):
+    """Adds account details to vault"""
+    unwritten = True
+    while unwritten:
+        with open('pmvault.csv', 'r+', newline='') as vault_file:
+            vault_writer = csv.writer(vault_file)
+            last_row = vault_file.readlines()[-1]
+            #Checks if there is an item before the new one, and increments the list value by one.
+            if last_row[0] == '#':
+                vault_writer.writerow(['1', f'{account.account_type}', f'{account.username}', f'{account.password}'])
+                unwritten = False
+            else:
+                vault_writer.writerow([f"{str(int(last_row[0]) + 1)}", f'{account.account_type}', f'{account.username}', f'{account.password}'])
+                unwritten = False
+
+
+
+def add_account():
+    """Creates an account object and passes it to the add_to_vault function"""
+    trying_to_add = True
+    while trying_to_add:
+        account_type = input("Please enter the service this account is for: ")
+        username = input("Please enter your username: ")
+        password = input("Please enter your password: ")
+        acct = Account(account_type, username, password)
+        print("- Account Details -\n"
+              f"Account Type: {acct.account_type}\n"
+              f"Username: {acct.username}\n"
+              f"Password: {acct.password}\n")
+        check_details = input("Double check your details. Does this look correct? [y/n] ").strip().lower()
+        while check_details:
+            if check_details == "y":
+                add_to_vault(acct)
+                trying_to_add = False
+                check_details = False
+            elif check_details != "n":
+                print("Please enter a valid input. [y/n] ")
+            else:
+                check_details = False
+
+
+
