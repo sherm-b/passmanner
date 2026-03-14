@@ -1,28 +1,28 @@
 class Account(object):
     def __init__(self, account_name, username, password):
-        self.account_name = account_name
-        self.username = username
-        self.password = password
+        self._account_name = account_name
+        self._username = username
+        self._password = password
 
     @property
     def account_name(self):
-        return self.account_name
+        return self._account_name
 
     @account_name.setter
     def account_name(self, account_name):
-        self.account_name = account_name
+        self._account_name = account_name
 
     @property
     def username(self):
-        return self.username
+        return self._username
 
     @username.setter
     def username(self, username):
-        self.username = username
+        self._username = username
 
     @property
     def password(self):
-        return self.password
+        return self._password
 
     @password.setter
     def password(self, password):
