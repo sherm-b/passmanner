@@ -69,8 +69,6 @@ def add_to_vault(account):
         else:
             vault_writer.writerow([f"{str(int(last_row[0]) + 1)}", f'{account.account_type}', f'{account.username}', f'{account.password}'])
 
-
-
 def add_account():
     """Creates an account object and passes it to the add_to_vault function"""
     #these loops are messy, going to mess around with this and try to clean it up
@@ -96,5 +94,10 @@ def add_account():
             else:
                 check_details = False
 
-
+def list_vault():
+    """Prints out the vault details"""
+    with open('pmvault.csv', 'r', newline='') as vault_file:
+        vault_reader = csv.reader(vault_file)
+        for row in vault_reader:
+            print(f"{row[0]: ^3}| {row[1]: ^16} | {row[2]: ^16} | {row[3]: ^16}")
 
