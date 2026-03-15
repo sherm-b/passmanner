@@ -30,19 +30,11 @@ class Account(object):
 
     @password.setter
     def password(self, password):
-        if password != self._password:
-            validate_change = input(f"Are you sure you want to change your password to [{password}]? (y/n)")
-            if validate_change == "y":
-                self._password = password
-                print("Your password has been changed")
-            else:
-                return
-
-    def __str__(self):
-        return f"{self._account_type} | {self._username} | {self._password}"
+        self._password = password
 
 def create_vault():
     """Creates a 'vault' csv to store account details"""
+    #could add option to have user specify path to vault file if it's not in main dir
     create_vault_input = input('No vault file found. Would you like to create one? [y/n] ')
     input_invalid = True
     while input_invalid:
@@ -122,8 +114,9 @@ def search_vault():
         vault_reader = csv.reader(vault_file)
         for row in vault_reader:
             for item in row:
-                #checks if search term is in row, excluding passwords
+                #checks if search term is in row, excluding passwords.
                 if search_term_strip_lower == item.lower().strip() and search_term_strip_lower != row[3]:
+                    #checks if success message has already been printed, skips otherwise
                     if found_one_yet == False:
                         found_one_yet = True
                         print(f"\nAccount details for {search_term} found successfully.\n"
@@ -147,6 +140,7 @@ def delete_from_vault():
     with open('pmvault.csv', 'r+', newline='') as vault_file:
         vault_reader = csv.reader(vault_file)
         for row in vault_reader:
+            #checks deletion candidate is found, stops looping when it is
             if not start_delete:
                 if row[0] == delete_account:
                     if delete_check(row):
@@ -170,12 +164,13 @@ def delete_from_vault():
                     vault_writer.writerow(line.split(','))
         print(f"Details deleted successfully.")
     else:
+        #if deletion candidate isn't found, print this
         print(f"No account details found for {delete_account}. Deletion aborted.")
 
 def delete_check(acct):
     """Double checks if user wants to delete the account details"""
     check_input = input("Are you sure you want to delete these details?\n"
-                      f"Please type [{acct[3]}] to confirm: ").strip().lower()
+                      f"Please type [{acct[3]}] to confirm: ")
     if check_input == acct[3]:
         print(f"Deleting account details for {acct[1]}.\n")
         return True
