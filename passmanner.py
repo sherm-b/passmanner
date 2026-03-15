@@ -159,13 +159,14 @@ def delete_from_vault():
             #write all lines in file except for the selected deletion line
             for line in lines:
                 line = line.strip()
+                #makes sure header never gets deleted
                 if line[0] == '#':
                     vault_writer.writerow(line.split(','))
-                elif line[0] != delete_account and line[0] != '1':
+                #if line comes after deleted line, decrement number by one
+                elif line[0] != delete_account and int(line[0]) > int(delete_account):
                     line = line.replace(line[0], str(int(line[0]) - 1), 1)
                     vault_writer.writerow(line.split(','))
-                #edge case for first line of file if not being deleted
-                elif line[0] != delete_account and line[0] == '1':
+                elif line[0] != delete_account:
                     vault_writer.writerow(line.split(','))
         print(f"Details deleted successfully.")
     else:
