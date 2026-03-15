@@ -85,6 +85,10 @@ def add_account():
                 check_details = input("Please enter a valid input. [y/n] ")
             else:
                 check_details = False
+                try_again = input("\nWould you like to try again? n to abort. [y/n] ")
+                if try_again == "n":
+                    print("Cancelling account creation.\n")
+                    trying_to_add = False
 
 def list_vault():
     """Prints out the vault details"""
