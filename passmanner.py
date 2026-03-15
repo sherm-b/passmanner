@@ -98,6 +98,16 @@ def list_vault():
     """Prints out the vault details"""
     with open('pmvault.csv', 'r', newline='') as vault_file:
         vault_reader = csv.reader(vault_file)
+        #find length of longest items in each column to build formatting around
+        longest_items = []
         for row in vault_reader:
-            print(f"{row[0]: ^3}| {row[1]: ^16} | {row[2]: ^16} | {row[3]: ^16}")
-
+            for item in row:
+                if len(longest_items) < 4:
+                    longest_items.append(len(item))
+                if longest_items[row.index(item)] < len(item):
+                    longest_items[row.index(item)] = len(item)
+    #reopen file to reset reader cursor
+    with open(f"pmvault.csv", 'r', newline='') as vault_file:
+        vault_reader = csv.reader(vault_file)
+        for row in vault_reader:
+            print(f" {row[0]: ^{longest_items[0]}} | {row[1]: ^{longest_items[1]}} | {row[2]: ^{longest_items[2]}} | {row[3]: ^{longest_items[3]}}")
