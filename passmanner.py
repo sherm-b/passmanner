@@ -139,7 +139,7 @@ def delete_from_vault():
     start_delete = False
     list_vault()
     #get the list item number that the user wishes to delete
-    delete_account = input("Which account details do you want to delete?\n"
+    delete_account = input("\nWhich account details do you want to delete?\n"
                            "Input account number (first column), or enter nothing to abort: ").strip().lower()
     with open('pmvault.csv', 'r+', newline='') as vault_file:
         vault_reader = csv.reader(vault_file)
@@ -148,6 +148,7 @@ def delete_from_vault():
             if not start_delete:
                 if row[0] == delete_account:
                     if delete_check(row):
+                        #read file to a list from the beginning
                         vault_file.seek(0)
                         lines = vault_file.readlines()
                         start_delete = True
