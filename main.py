@@ -35,6 +35,8 @@ def main():
             passmanner.add_account()
         if input_choice == 'l':
             passmanner.list_vault()
+        if input_choice == 's':
+            passmanner.search_vault()
 
 
 if __name__ == '__main__':

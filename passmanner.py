@@ -111,3 +111,28 @@ def list_vault():
         vault_reader = csv.reader(vault_file)
         for row in vault_reader:
             print(f" {row[0]: ^{longest_items[0]}} | {row[1]: ^{longest_items[1]}} | {row[2]: ^{longest_items[2]}} | {row[3]: ^{longest_items[3]}}")
+
+def search_vault():
+    """Searches for specific account details in vault"""
+    search_term = input("Enter Account Type or Username: ")
+    found_one_yet = False
+    #preserve search term in form entered for use in success message
+    search_term_strip_lower = search_term.strip().lower()
+    with open('pmvault.csv', 'r', newline='') as vault_file:
+        vault_reader = csv.reader(vault_file)
+        for row in vault_reader:
+            for item in row:
+                #checks if search term is in row, excluding passwords
+                if search_term_strip_lower == item.lower().strip() and search_term_strip_lower != row[3]:
+                    if found_one_yet == False:
+                        found_one_yet = True
+                        print(f"\nAccount details for {search_term} found successfully.\n"
+                              f"Account Type: {row[1]}\n"
+                              f"Username: {row[2]}\n"
+                              f"Password: {row[3]}\n")
+                    else:
+                        print(f"Account Type: {row[1]}\n"
+                              f"Username: {row[2]}\n"
+                              f"Password: {row[3]}")
+    if found_one_yet == False:
+        print(f"No account details found for {search_term}.")
