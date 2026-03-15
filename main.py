@@ -23,11 +23,11 @@ def main():
         passmanner.create_vault()
     #ask if user wants to search for, see, add or delete profile info, accept input
     #conditional tree to selected option, loops if not terminated with q option
+    print("Would you like to [a]dd, [l]ist, [s]earch for, or [d]elete an account?\n"
+          "You can enter '?' for help, or 'q' to quit.")
     while True:
-        input_choice = input("Would you like to [a]dd, [l]ist, [s]earch for, or [d]elete an account?\n"
-                             "You can enter 'h' for help, or 'q' to quit.\n"
-                             "[a/l/s/d/q/h]: ").strip().lower()
-        if input_choice == 'h':
+        input_choice = input("\n[a/l/s/d/h/?]: ").strip().lower()
+        if input_choice == '?':
             print_help()
         if input_choice == 'q':
             sys.exit("Thank you for using passmanner. Exiting...")
