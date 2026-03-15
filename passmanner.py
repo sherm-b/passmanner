@@ -1,6 +1,4 @@
-import csv
-import os
-import sys
+import csv, os, sys
 
 class Account(object):
     def __init__(self, account_type, username, password):
