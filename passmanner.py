@@ -90,7 +90,7 @@ def add_account():
                 trying_to_add = False
                 check_details = False
             elif check_details != "n":
-                print("Please enter a valid input. [y/n] ")
+                check_details = input("Please enter a valid input. [y/n] ")
             else:
                 check_details = False
 
