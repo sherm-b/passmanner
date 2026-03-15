@@ -107,7 +107,7 @@ def list_vault():
                 if longest_items[row.index(item)] < len(item):
                     longest_items[row.index(item)] = len(item)
     #reopen file to reset reader cursor
-    with open(f"pmvault.csv", 'r', newline='') as vault_file:
+    with open("pmvault.csv", 'r', newline='') as vault_file:
         vault_reader = csv.reader(vault_file)
         for row in vault_reader:
             print(f" {row[0]: ^{longest_items[0]}} | {row[1]: ^{longest_items[1]}} | {row[2]: ^{longest_items[2]}} | {row[3]: ^{longest_items[3]}}")
@@ -136,3 +136,48 @@ def search_vault():
                               f"Password: {row[3]}")
     if found_one_yet == False:
         print(f"No account details found for {search_term}.")
+
+def delete_from_vault():
+    """Deletes account details from vault"""
+    start_delete = False
+    list_vault()
+    #get the list item number that the user wishes to delete
+    delete_account = input("Which account details do you want to delete?\n"
+                           "Input account number (first column), or enter nothing to abort: ").strip().lower()
+    with open('pmvault.csv', 'r+', newline='') as vault_file:
+        vault_reader = csv.reader(vault_file)
+        for row in vault_reader:
+            if not start_delete:
+                if row[0] == delete_account:
+                    if delete_check(row):
+                        vault_file.seek(0)
+                        lines = vault_file.readlines()
+                        start_delete = True
+    if start_delete:
+        with open("pmvault.csv", 'w', newline='') as vault_file:
+            vault_writer = csv.writer(vault_file, delimiter=',')
+            #write all lines in file except for the selected deletion line
+            for line in lines:
+                line = line.strip()
+                if line[0] == '#':
+                    vault_writer.writerow(line.split(','))
+                elif line[0] != delete_account and line[0] != '1':
+                    line = line.replace(line[0], str(int(line[0]) - 1), 1)
+                    vault_writer.writerow(line.split(','))
+                #edge case for first line of file if not being deleted
+                elif line[0] != delete_account and line[0] == '1':
+                    vault_writer.writerow(line.split(','))
+        print(f"Details deleted successfully.")
+    else:
+        print(f"No account details found for {delete_account}. Deletion aborted.")
+
+def delete_check(acct):
+    """Double checks if user wants to delete the account details"""
+    check_input = input("Are you sure you want to delete these details?\n"
+                      f"Please type [{acct[3]}] to confirm: ").strip().lower()
+    if check_input == acct[3]:
+        print(f"Deleting account details for {acct[1]}.\n")
+        return True
+    else:
+        print("Deletion aborted.\n")
+        return False

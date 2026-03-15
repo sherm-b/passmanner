@@ -26,7 +26,7 @@ def main():
     print("Would you like to [a]dd, [l]ist, [s]earch for, or [d]elete an account?\n"
           "You can enter '?' for help, or 'q' to quit.")
     while True:
-        input_choice = input("\n[a/l/s/d/h/?]: ").strip().lower()
+        input_choice = input("\n[a/l/s/d/q/?]: ").strip().lower()
         if input_choice == '?':
             print_help()
         if input_choice == 'q':
@@ -37,7 +37,8 @@ def main():
             passmanner.list_vault()
         if input_choice == 's':
             passmanner.search_vault()
-
+        if input_choice == 'd':
+            passmanner.delete_from_vault()
 
 if __name__ == '__main__':
     main()
