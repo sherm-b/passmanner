@@ -14,7 +14,7 @@ def print_help():
           "[s] - search - Search for account details in passmanner vault by account type or username.\n"
           "[d] - delete - Delete account details from passmanner vault.\n"
           "[q] - quit - Quit passmanner.\n"
-          "[h] - help - Show this help menu.\n")
+          "[?] - help - Show this help menu.\n")
 
 def main():
     print("-- passmanner --\n")
