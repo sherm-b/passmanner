@@ -17,6 +17,7 @@ def print_help():
           "[?] - help - Show this help menu.\n")
 
 def main():
+    """main function"""
     print("-- passmanner --\n")
     #if vault file doesn't exist, ask to create it
     if 'pmvault.csv' not in os.listdir('.'):
